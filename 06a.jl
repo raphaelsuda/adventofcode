@@ -1,0 +1,1 @@
+sum(length.(Set.(join.(split.(split(read("06.input",String), "\n\n"),'\n')))))

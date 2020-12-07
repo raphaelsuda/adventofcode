@@ -1,0 +1,1 @@
+sum(length.(reduce.(∩, split.(split(read("06.input",String), "\n\n"),'\n'))))
