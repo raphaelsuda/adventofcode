@@ -7,9 +7,9 @@ end
 function solve08a(instructions)
     i = 1
     acc = 0
-    check_inst = falses(length(instructions))
-    while !(check_inst[i])
-        check_inst[i] = true
+    lines_run = Set{Int64}()
+    while !(i in lines_run) && i ≤ length(instructions)
+        push!(lines_run, i)
         inst = instructions[i]
         if inst[1] == "acc"
             acc += inst[2]
@@ -19,9 +19,8 @@ function solve08a(instructions)
         else
             i += 1
         end
-        i > length(instructions) && break
     end
-    return acc, check_inst[end]
+    return acc, length(instructions) in lines_run
 end
 
 function solve08b(instructions)
