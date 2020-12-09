@@ -12,8 +12,7 @@ end
 
 function solve09a(numbers)
     for i in 26:length(numbers)
-        preamble = numbers[i-25:i-1]
-        number_valid(numbers[i], preamble) || return numbers[i]
+        number_valid(numbers[i], numbers[i-25:i-1]) || return numbers[i]
     end
 end
 
