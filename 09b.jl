@@ -1,10 +1,7 @@
 function number_valid(number, preamble)
-    _preamble = sort(preamble)
-    for i in 1:length(_preamble)
-        _preamble[i] ≥ number && break
-        for j in i+1:length(_preamble)
-            _preamble[j] ≥ number && break
-            number == _preamble[i] + _preamble[j] && return true
+    for i in 1:length(preamble)
+        for j in i+1:length(preamble)
+            number == preamble[i] + preamble[j] && return true
         end
     end
     return false
