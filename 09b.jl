@@ -1,7 +1,10 @@
 function number_valid(number, preamble)
-    for i in 1:length(preamble)
-        for j in i+1:length(preamble)
-            number == preamble[i] + preamble[j] && return true
+    _preamble = sort(preamble)
+    for i in 1:length(_preamble)
+        _preamble[i] ≥ number && break
+        for j in i+1:length(_preamble)
+            _preamble[j] ≥ number && break
+            number == _preamble[i] + _preamble[j] && return true
         end
     end
     return false
@@ -18,7 +21,8 @@ function solve09b(numbers, invalid_number)
     for i in 1:length(numbers)
         for j in i+1:length(numbers)
             rng = numbers[i:j]
-            sum(rng) == invalid_number && return minimum(rng) + maximum(rng)
+            sum(rng) > invalid_number && break
+            sum(rng) == invalid_number && return sum(extrema(rng))
         end
     end
 end
