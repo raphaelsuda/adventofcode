@@ -3,7 +3,7 @@ waiting_time(earliest_t, bus_ID) = (earliest_t÷bus_ID+1)*bus_ID - earliest_t
 function valid_t(buses, i)
     t1 = buses[1][1] * i
     for b in buses[2:end]
-        (t1÷b[1] + 1)*b[1] - t1 == b[2] || return false
+        (t1 + b[2])%b[1] == 0 || return false
     end
     return true
 end
@@ -19,21 +19,26 @@ end
 function merge_periods((o1, p1), (o2, p2))
     i1 = 0
     i2 = 0
+    o = 0
     found_start = false
     while true
         n1 = o1 + i1*p1
         n2 = o2 + i2*p2
         if n1 < n2
-            i1 += 1
+            i1 = (n2 - o1)÷p1
+            (n2 - o1)%p1 != 0 && (i1 += 1)
             continue
         end
         if n2 < n1
-            i2 += 1
+            i2 = (n1 - o2)÷p2
+            (n1 - o2)%p2 != 0 && (i2 += 1)
             continue
         end
         n1 == n2 && found_start == true && return (o, n1-o) 
         if n1 == n2
             o = n1
+            found_start = true
+            i1 += 1
         end
     end
 end
@@ -57,8 +62,8 @@ for i in 1:length(bus_schedule)
     bus_schedule[i] != "x" && push!(buses, (parse(Int64, bus_schedule[i]), i-1))
 end
 
-# periods = Tuple{Int64, Int64}[]
-# for b in buses[2:end]
-#     push!(periods, get_period(buses[1][1], b[1], b[2]))
-# end
-# solve13b(buses)
+periods = Tuple{Int64, Int64}[]
+for b in buses[2:end]
+    push!(periods, get_period(buses[1][1], b[1], b[2]))
+end
+solve13b(buses)
