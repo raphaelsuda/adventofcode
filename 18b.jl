@@ -1,8 +1,6 @@
--(x,y) = x * y
-×(x,y) = x + y
-
 function evaluate(s,rep)
     for k in keys(rep)
+        eval(Meta.parse("$(rep[k])(x,y)=x$(k)y"))
         s = replace(s, k=>rep[k])
     end
     return eval(Meta.parse(s))
